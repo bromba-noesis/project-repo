@@ -34,5 +34,5 @@ jobs:
           headers: '{ "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }'
           bearer-token: ${{ secrets.BROMBA_NOESIS_PAT2 }}
           body: '{ "ref": "main", "inputs": { "myRepo": ${{ github.event.repository.name }}, "myEnvironment": "Development", myVersion: "0.0.1" }}'    #how to get lib version?
-          log-response: false
+          log-response: true
           timeout: 3000
