@@ -18,7 +18,8 @@ jobs:
       uses: bromba-noesis/workflows-repo/.github/workflows/wiki_project_update.yml@main
       with:
         myEnvironment: Quality
-        myTag: 0.0.1
+        myTag: 0.0.9
+        myLibVersion: 0.0.1
       secrets: inherit
   
   report_lib:
@@ -33,6 +34,6 @@ jobs:
           accept: 204
           headers: '{ "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }'
           bearer-token: ${{ secrets.BROMBA_NOESIS_PAT2 }}
-          body: '{ "ref": "main", "inputs": { "myRepo": ${{ github.event.repository.name }}, "myEnvironment": "Quality", myVersion: "0.0.1" }}'    #how to get lib version?
+          body: '{ "ref": "main", "inputs": { "myRepo": ${{ github.event.repository.name }}, "myEnvironment": "Quality", myLibVersion: "0.0.1" }}'    #how to get lib version?
           log-response: true
           timeout: 3000
