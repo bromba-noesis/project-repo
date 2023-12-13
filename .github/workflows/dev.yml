@@ -18,7 +18,8 @@ jobs:
       uses: bromba-noesis/workflows-repo/.github/workflows/wiki_project_update.yml@main
       with:
         myEnvironment: Development
-        myTag: 0.0.1
+        myTag: 0.0.9
+        myLibVersion: 0.0.1
       secrets: inherit
   
   report_lib:
