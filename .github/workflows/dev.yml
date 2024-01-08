@@ -6,6 +6,10 @@ on:
     branches: [ "development" ]
 
 jobs:
+  get-xml-values:
+    uses: bromba-noesis/workflows-repo/.github/workflows/xml_values.yml@main
+    secrets: inherit
+
   build:
     runs-on: ubuntu-latest
     environment: Development
@@ -14,16 +18,16 @@ jobs:
         run: echo deploying to Dev...
 
   report_project:
-      needs: build
+      needs: [get-xml-values, build]
       uses: bromba-noesis/workflows-repo/.github/workflows/wiki_project_update.yml@main
       with:
         myEnvironment: Development
-        myTag: 0.0.9
-        myLibVersion: 0.0.2
+        myTag: ${{needs.get-xml-values.outputs.projVersion}}
+        myLibVersion: ${{needs.get-xml-values.outputs.libVersion}}
       secrets: inherit
   
   report_lib:
-     needs: build
+     needs: [get-xml-values, build]
      runs-on: ubuntu-latest
      steps:
       - name: wiki_lib_update
@@ -34,6 +38,6 @@ jobs:
           accept: 204
           headers: '{ "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }'
           bearer-token: ${{ secrets.BROMBA_NOESIS_PAT2 }}
-          body: '{ "ref": "main", "inputs": { "myRepo": ${{ github.event.repository.name }}, "myEnvironment": "Development", myLibVersion: "0.0.2" }}'    #how to get lib version?
+          body: '{ "ref": "main", "inputs": { "myRepo": ${{ github.event.repository.name }}, "myEnvironment": "Development", myLibVersion: "${{needs.get-xml-values.outputs.libVersion}}" }}'
           log-response: true
           timeout: 3000
